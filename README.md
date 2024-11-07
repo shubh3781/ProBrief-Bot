@@ -59,7 +59,7 @@ In professional networking and recruitment, efficiently presenting one's backgro
 3. **Run the Application**:
     Start the Streamlit app with:
     ```bash
-    streamlit run app.py
+    streamlit run ProBrief.py
     ```
 
 ## How to Use
