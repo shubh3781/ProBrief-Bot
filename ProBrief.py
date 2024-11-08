@@ -49,13 +49,13 @@ def main():
     api_key_input = st.text_input("Enter your GeminiAPI key:", type="password")
     if st.button("Set API Key"):
         if api_key_input:
-            os.environ["llm_api_key"] = api_key_input
+            os.environ["gemini_api_key"] = api_key_input
             st.success("API Key set successfully.")
         else:
             st.error("Please enter a valid API key.")
 
     # Ensure API key is available
-    Api_key = os.getenv("llm_api_key")
+    Api_key = os.getenv("gemini_api_key")
     if not Api_key:
         st.warning("Please enter an API key to proceed.")
         return
