@@ -1,130 +1,99 @@
-
 ---
 
 # ProBrief Bot
 
-ProBrief is an interactive chatbot application designed to provide instant responses about Shubhkumar Patel’s professional and academic background. By leveraging state-of-the-art natural language processing capabilities, ProBrief offers accurate, real-time responses tailored to user queries, helping streamline engagement with recruiters and other interested parties.
+Welcome to ProBrief! This project is designed to create a chatbot that provides information about Shubhkumar Patel’s professional and academic journey using the power of LLMs (Large Language Models) and LangChain. The bot intelligently retrieves relevant data and presents responses tailored to user queries, such as those from recruiters or other interested parties.
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Problem Statement](#problem-statement)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Setup Instructions](#setup-instructions)
-- [How to Use](#how-to-use)
-- [Application Architecture](#application-architecture)
-- [Code Explanation](#code-explanation)
-- [Conclusion](#conclusion)
+## Project Overview
 
----
+ProBrief utilizes an LLM-driven approach combined with a LangChain agent to deliver accurate responses about Shubhkumar Patel's background. The data is stored in a pipe-separated CSV file where each entry is structured in a question-answer format. When a user submits a query, the following process occurs:
 
-## Introduction
+1. **Embedding and Retrieval**: 
+   - The query is embedded using Google Generative AI embeddings (via the `GoogleGenerativeAIEmbeddings` model).
+   - The system leverages the FAISS (Facebook AI Similarity Search) vector store to perform a similarity search, retrieving the most relevant information from the CSV file.
 
-ProBrief is designed to automate the process of sharing detailed information about Shubhkumar Patel's professional journey. It eliminates the need for direct communication or scheduling by providing immediate, accurate responses to queries, making it easier for recruiters and other professionals to connect without delays.
+2. **LLM Refinement with Gemini**:
+   - The retrieved data is fed into a large language model, specifically the Gemini LLM (`gemini-1.5-pro-002`), via LangChain’s `LLMChain`.
+   - The LLM, guided by a rule-based prompt, crafts a well-structured, professional response based on the retrieved data.
 
-## Problem Statement
+3. **LangChain Agent**:
+   - LangChain serves as the integration backbone, enabling seamless interactions between the CSV data, embeddings, and LLM to generate high-quality responses.
+   - This approach, known as **Retrieval Augmented Generation (RAG)**, ensures that user queries are met with precise and contextually relevant responses.
 
-In professional networking and recruitment, efficiently presenting one's background and experience is crucial. Time zones, availability, and response delays can create friction. ProBrief addresses this problem by offering a chatbot that instantly retrieves and shares relevant information about Shubhkumar Patel, enhancing accessibility and engagement without requiring his immediate presence.
+## Technologies and Techniques Used
 
-## Features
+- **LLM (Gemini)**: Used for generating refined, professional responses. The choice of Gemini is due to its ease of access, as it requires only a Google account to obtain an API key from Google AI Studio, making it freely accessible for most users.
+- **LangChain**: Enables interaction with LLMs and data sources, creating chains to retrieve and process information effectively.
+- **FAISS Vector Store**: Used to perform similarity searches on embeddings to identify relevant pieces of information.
+- **Google Generative AI Embeddings**: Provides embeddings for text data, crucial for the retrieval step.
+- **CSV Data Storage**: Data is stored in a pipe-separated CSV file with question-answer format for easy retrieval and processing.
 
-- **User-friendly Interface**: Easy-to-use interface powered by Streamlit.
-- **Real-time Responses**: Instant responses tailored to user queries.
-- **AI-Driven Insights**: Integrates LangChain for query processing.
-- **Data Retrieval and Similarity Search**: Utilizes FAISS for efficient similarity search.
-- **Custom Styling and Aesthetics**: Interactive and visually appealing design using Streamlit customizations.
+## Requirements
 
-## Technologies Used
-
-- **Programming Language**: Python
-- **Framework**: Streamlit
-- **Language Model**: Google Generative AI (Gemini)
-- **Libraries**: LangChain, FAISS, dotenv, LangChain Community Document Loaders
-- **Embeddings**: Google Generative AI Embeddings
-
-## Setup Instructions
-
-1. **Clone the Repository**:
-    ```bash
-    git clone <repository-url>
-    cd ProBrief
-    ```
-
-2. **Install Dependencies**:
-    Ensure you have Python installed. Run the following command to install required libraries:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. **Run the Application**:
-    Start the Streamlit app with:
-    ```bash
-    streamlit run ProBrief.py
-    ```
+- Python 3.7+
+- Streamlit for the web interface
+- LangChain for LLM and data management
+- FAISS for similarity search
+- `langchain_google_genai` for Google Generative AI models
+- dotenv for environment variable management
+- A pipe-separated CSV file containing your data in the format:
+  ```
+  Question|Answer
+  ```
 
 ## How to Use
 
-1. **Enter API Key**:
-   - Enter your Gemini API key in the input field to authenticate and access AI capabilities.
+1. **Clone the Repository**:
+   ```
+   git clone https://github.com/shubh3781/ProBrief-Bot
+   cd ProBrief-Bot
+   ```
 
-2. **Ask Queries**:
-   - Use the text area to ask questions related to Shubhkumar Patel’s background.
-   - Click the submit button to receive a response.
+2. **Install Dependencies**:
+   Make sure you have all necessary packages installed:
+   ```
+   pip install -r requirements.txt
+   ```
 
-3. **View Responses**:
-   - The chatbot will generate and display relevant responses based on available data.
+3. **Prepare Your Data**:
+   Create a CSV file (`your_file.csv`) with the structure:
+   ```
+   Question|Answer
+   ```
+   Replace the content with relevant data.
 
-## Application Architecture
+4. **Run the Application**:
+   ```
+   streamlit run your_script.py
+   ```
 
-1. **Data Loading and Preprocessing**:
-   - Data about Shubhkumar Patel’s background is loaded from a CSV file using LangChain's `CSVLoader`.
-   
-2. **Embedding Generation**:
-   - Data is embedded using Google Generative AI embeddings for efficient similarity search.
+5. **Usage**:
+   - Enter your Gemini API key when prompted.
+   - Ask questions in the text area to get responses about the data provided.
 
-3. **Vector Store Creation**:
-   - FAISS is used as a vector store for fast and accurate similarity searches.
+## Why Use Gemini LLM?
 
-4. **LLM Interaction**:
-   - LangChain's `LLMChain` and `PromptTemplate` generate responses based on user queries and retrieved data.
+- **Free and Easy Access**: Gemini LLM is freely accessible to users with a Google account. API keys can be generated instantly via [Google AI Studio](https://aistudio.google.com/apikey).
+- **Strong Capabilities**: It offers powerful generation capabilities for refining retrieved data and producing professional-quality responses.
 
-5. **Custom Styling and Design**:
-   - The Streamlit interface is customized with a background color and animations to enhance user experience.
+## Customizing for Different Data
 
-## Code Explanation
+To customize ProBrief for different datasets:
+1. Replace the CSV file with a new file containing your data.
+2. Ensure your file follows the pipe-separated question-answer format (`Question|Answer`).
+3. Modify any embeddings, models, or prompt templates to better suit your data and use case.
 
-### Key Components
+## Example Usage
 
-1. **`main()` Function**:
-   - Sets up the Streamlit page, header, and user input elements.
-   - Handles API key input and validation.
+1. **Load Data**:
+   The CSV data is loaded using a CSV loader.
+2. **Retrieve Relevant Information**:
+   FAISS is used to find similar content based on the user’s query.
+3. **Generate a Response**:
+   Gemini LLM, via LangChain, creates a well-structured response, guided by rules and templates to ensure accuracy and relevance.
 
-2. **Data Retrieval**:
-   - Uses `CSVLoader` to load data.
-   - Embeds data using Google Generative AI embeddings and stores it in a FAISS vector store.
+---
 
-3. **Response Generation**:
-   - The `ai_RAG_response` function handles user input and generates responses using LangChain's `LLMChain`.
-
-4. **User Interaction**:
-   - Provides a text area for users to input queries and displays responses using Streamlit.
-
-### Sample Code Snippet
-
-```python
-def retrieve_data(query):
-    similar_response = db.similarity_search(query)
-    entire_data = [doc.page_content for doc in similar_response]
-    return entire_data
-
-def ai_RAG_response(message):
-    best_practice = retrieve_data(message)
-    response = mychain.run(message=message, best_practice=best_practice)
-    return response.replace('\n', '')
-```
-
-## Conclusion
-
-ProBrief offers a robust solution to the challenges of providing timely, accurate, and detailed professional information. By integrating state-of-the-art AI technologies, it ensures that potential recruiters and interested parties can easily access information about Shubhkumar Patel, fostering better connections and professional visibility.
+Enjoy using ProBrief, and make it yours by tailoring it with your data and requirements! For any contributions or issues, please raise them on our GitHub page.
 
 ---
