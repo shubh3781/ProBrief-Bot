@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
+from streamlit import session_state
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.vectorstores import FAISS
@@ -49,17 +50,17 @@ def main():
     api_key_input = st.text_input("Enter your GeminiAPI key:", type="password")
     if st.button("Set API Key"):
         if api_key_input:
-            os.environ["gemini_api_key"] = api_key_input
+            st.session_state["gemini_api_key"] = api_key_input
             st.success("API Key set successfully.")
         else:
             st.error("Please enter a valid API key.")
 
     # Ensure API key is available
-    Api_key = os.getenv("gemini_api_key")
-    if not Api_key:
+    if "gemini_api_key" not in st.session_state or not st.session_state["gemini_api_key"]:
         st.warning("Please enter an API key to proceed.")
         return
-
+        
+    Api_key = st.session_state["gemini_api_key"]
     # Load data and initialize embeddings
     loader = CSVLoader(file_path="Shubh_Bot.csv", encoding="utf-8", csv_args={'delimiter': '|'})
     dataset = loader.load()
